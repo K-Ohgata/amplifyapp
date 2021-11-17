@@ -13,8 +13,8 @@ function App() {
 
   useEffect(() => {
     fetchNotes()
-  })
-
+  },[])
+  
   async function fetchNotes() {
     const apiData = await API.graphql({ query: listTodos })
     const notesFromAPI = apiData.data.listTodos.items
@@ -27,7 +27,7 @@ function App() {
     }))
     setNotes(apiData.data.listTodos.items)
   }
-
+  
   async function createNote() {
     if (!formData.name || !formData.description) return;
     await API.graphql({ query: createNoteMutation, variables: { input: formData } });
@@ -38,7 +38,7 @@ function App() {
     setNotes([ ...notes, formData ]);
     setFormData(initialFormState);
   }
-
+  
   async function deleteNote({ id }) {
     const newNotesArray = notes.filter(note => note.id !== id);
     setNotes(newNotesArray);
@@ -48,6 +48,7 @@ function App() {
   async function onChange(e) {
     if (!e.target.files[0]) return
     const file = e.target.files[0]
+    console.log(file)
     setFormData({ ...formData, image: file.name })
     await Storage.put(file.name, file)
     fetchNotes()

@@ -4,3 +4,10 @@ type Todo @model {
   description: String
   image: String
 }
+
+type User @model {
+  id:ID
+  name: String
+  email:String
+  tel:String
+}
